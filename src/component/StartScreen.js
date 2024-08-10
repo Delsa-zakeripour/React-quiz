@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function StartScreen({ numQuestion, dispatch }) {
+export default function StartScreen({ dispatch }) {
   return (
     <div className="start">
       <h2>Welcome To The React Quiz</h2>
-      <p className="h2">questions to test your react mastery</p>
+      <h3 className="">Some questions to test your react mastery</h3>
       <button
         className="btn btn-ui"
         onClick={() => dispatch({ type: "start" })}
