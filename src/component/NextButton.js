@@ -1,10 +1,7 @@
-import Questions from "./Question";
-
 function NextButton({ dispatch, answer, index, question }) {
   if (answer === null) return null;
   const numQuestion = question.length;
 
-  console.log(question.length);
   if (index < numQuestion - 1)
     return (
       <div>

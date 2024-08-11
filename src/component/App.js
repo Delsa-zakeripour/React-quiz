@@ -18,6 +18,7 @@ const initialState = {
   answer: null,
   points: 0,
   highscore: 0,
+  secondsReminer: null,
 };
 
 function reducer(state, action) {
@@ -37,6 +38,7 @@ function reducer(state, action) {
       return {
         ...state,
         status: "active",
+        secondsReminer: state.questions.length * 20,
       };
     case "newAnswer":
       const question = state.questions.at(state.index);
@@ -63,7 +65,11 @@ function reducer(state, action) {
           state.points > state.highscore ? state.points : state.highscore,
       };
     case "restart":
-      return { ...initialState, questions: state.question, status: "ready" };
+      return {
+        ...initialState,
+        questions: state.question,
+        status: "ready",
+      };
     // return {
     //   ...state,
     //   points: 0,
@@ -72,15 +78,24 @@ function reducer(state, action) {
     //   answer: 0,
     //   highscore: 0,
     // };
+    case "tick":
+      return {
+        ...state,
+        secondsReminer: state.secondsReminer - 1,
+        status: state.secondsReminer === 0 ? "finish" : state.status,
+      };
 
     default:
-      throw new Error(" oppps");
+      throw new Error("oppps");
   }
 }
 
 export default function App() {
-  const [{ questions, status, index, answer, points, highscore }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { questions, status, index, answer, points, highscore, secondsReminer },
+    dispatch,
+  ] = useReducer(reducer, initialState);
+
   // const numQuestion = questions.length;
   // console.log("questions", questions);
   // console.log("numQuestion", numQuestion);
@@ -119,13 +134,13 @@ export default function App() {
               dispatch={dispatch}
             />
             <Footer>
-              <Timer />
-            <NextButton
-              dispatch={dispatch}
-              answer={answer}
-              index={index}
-              question={questions}
-            />
+              <Timer dispatch={dispatch} secondsReminer={secondsReminer} />
+              <NextButton
+                dispatch={dispatch}
+                answer={answer}
+                index={index}
+                question={questions}
+              />
             </Footer>
           </>
         )}

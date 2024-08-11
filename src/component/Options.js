@@ -1,6 +1,4 @@
 export default function Options({ question, answer, dispatch }) {
-  //   console.log(answer);
-
   const hasAnswer = answer != null;
   return (
     <div>
